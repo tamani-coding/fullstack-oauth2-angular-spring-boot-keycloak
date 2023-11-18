@@ -1,0 +1,57 @@
+version: "3.9"
+services:
+  postgres:
+    container_name: db
+    image: "postgres:14.4"
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-q", "-d", "postgres", "-U", "postgres" ]
+      timeout: 45s
+      interval: 10s
+      retries: 10
+    volumes:
+      # change this to your local path
+      - "postgres_data:/c/tutorials/volume"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: keycloak
+      POSTGRES_HOST: postgres
+    networks:
+      - local
+    ports:
+      - "5432:5432"
+
+  keycloak:
+    container_name: keycloak
+    build:
+      context: .
+      args:
+        KEYCLOAK_VERSION: 22.0.0
+    command: ['start', '--optimized']
+    depends_on:
+      - "postgres"
+    environment:
+      JAVA_OPTS_APPEND: -Dkeycloak.profile.feature.upload_scripts=enabled
+      KC_DB_PASSWORD: postgres
+      KC_DB_URL: jdbc:postgresql://postgres/keycloak
+      KC_DB_USERNAME: postgres
+      KC_HEALTH_ENABLED: 'true'
+      KC_HTTP_ENABLED: 'true'
+      KC_METRICS_ENABLED: 'true'
+      KC_HOSTNAME_URL: http://localhost:8180
+      KC_PROXY: reencrypt
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: password
+    ports:
+      - "8180:8080"
+      - "8787:8787" # debug port
+    networks:
+      - local
+
+networks:
+  local:
+    name: local
+    driver: bridge
+
+volumes:
+  postgres_data:
