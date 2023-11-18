@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.jwt.CustomJwt;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +19,7 @@ import java.text.MessageFormat;
 public class HelloController {
 
     @GetMapping("/hello")
+    @PreAuthorize("hasAuthority('ROLE_fullstack-developer')")
     public Message hello() {
         var jwt = (CustomJwt) SecurityContextHolder.getContext().getAuthentication();
         var message = MessageFormat
