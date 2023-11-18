@@ -24,9 +24,9 @@ The component `AppComponent` provides a basic demo of logout and calling a prote
 
 Spring boot backend is in `backend` folder.
 
-The class `SecurityConfig` configures the security filter chain, enabling CORS, makes sure that all requests must be authenticated, configures to use an oauth2 resouce server (keycloak) and to use a custom JWT converter to extract all relevant data from the JWT.
+The class `SecurityConfig` configures the security filter chain, enabling CORS, makes sure that all requests must be authenticated, configures to be an oauth2 resource server (verify access token via JWT issuer) and to use a custom JWT converter to extract all relevant data from the JWT.
 
-The `application.properties` file has the oauth2 resource server configured, pointing to the locally running keycloak.
+The `application.properties` file has the JWT issuer configured, pointing to the locally running keycloak.
 
 The `CustomJwt` is a customized JWT containing all relevant information we need extracted from the JWT bearer token.
 
