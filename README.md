@@ -12,7 +12,7 @@ Check if the keycloak admin console is reachable (`http://localhost:8180/`).
 
 ## angular webapp
 
-Angular webapp is in `webapp`.
+Angular webapp is in `webapp`. Made with angular 17.
 
 Using [angular-oauth2-oidc](https://www.npmjs.com/package/angular-oauth2-oidc)!
 
@@ -22,7 +22,7 @@ The component `AppComponent` provides a basic demo of logout and calling a prote
 
 ## spring-boot backend
 
-Spring boot backend is in `backend` folder.
+Spring boot backend is in `backend` folder. Requires Maven and Java 21.
 
 The class `SecurityConfig` configures the security filter chain, enabling CORS, makes sure that all requests must be authenticated, configures to be an oauth2 resource server (verify access token via JWT issuer) and to use a custom JWT converter to extract all relevant data from the JWT.
 
