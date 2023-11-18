@@ -14,11 +14,11 @@ export const authCodeFlowConfig: AuthConfig = {
   showDebugInformation: true,
 };
 
-function initializeApp(oauthService: OAuthService): Promise<void> {
+function initializeOAuth(oauthService: OAuthService): Promise<void> {
   return new Promise((resolve) => {
     oauthService.configure(authCodeFlowConfig);
     oauthService.setupAutomaticSilentRefresh();
-    oauthService.loadDiscoveryDocumentAndTryLogin()
+    oauthService.loadDiscoveryDocumentAndLogin()
       .then(() => resolve());
   });
 }
@@ -31,7 +31,7 @@ bootstrapApplication(AppComponent, {
       provide: APP_INITIALIZER,
       useFactory: (oauthService: OAuthService) => {
         return () => {
-          initializeApp(oauthService);
+          initializeOAuth(oauthService);
         }
       },
       multi: true,

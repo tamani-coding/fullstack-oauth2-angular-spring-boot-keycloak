@@ -13,13 +13,7 @@ import { OAuthService } from 'angular-oauth2-oidc';
 export class AppComponent {
   title = 'webapp';
 
-  constructor(private oauthService: OAuthService) {
-    this.oauthService.tryLoginCodeFlow().then(() => {
-      if (!this.oauthService.hasValidAccessToken()) {
-        this.oauthService.initCodeFlow();
-      }
-    });
-  }
+  constructor(private oauthService: OAuthService) { }
 
   logout() {
     this.oauthService.logOut();
