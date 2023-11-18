@@ -2,7 +2,6 @@ package com.example.demo.jwt;
 
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.lang.NonNull;
-import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.jwt.Jwt;
@@ -11,10 +10,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class CustomJwtConverter implements Converter<Jwt, AbstractAuthenticationToken> {
+public class CustomJwtConverter implements Converter<Jwt, CustomJwt> {
 
     @Override
-    public AbstractAuthenticationToken convert(@NonNull Jwt jwt) {
+    public CustomJwt convert(@NonNull Jwt jwt) {
         // Extract claims and authorities as needed
         Collection<GrantedAuthority> authorities = extractAuthorities(jwt);
 
