@@ -27,7 +27,7 @@ services:
       context: .
       args:
         KEYCLOAK_VERSION: 22.0.0
-    command: ['start', '--optimized']
+    command: ['start', '--optimized', '--import-realm']
     depends_on:
       - "postgres"
     environment:
@@ -47,6 +47,8 @@ services:
       - "8787:8787" # debug port
     networks:
       - local
+    volumes:
+      - ./my-test-realm-realm.json:/opt/keycloak/data/import/my-test-realm-realm.json
 
 networks:
   local:
