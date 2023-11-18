@@ -1,6 +1,43 @@
 import { bootstrapApplication } from '@angular/platform-browser';
-import { appConfig } from './app/app.config';
+import { provideHttpClient } from '@angular/common/http';
 import { AppComponent } from './app/app.component';
+import { provideOAuthClient, AuthConfig, OAuthService } from 'angular-oauth2-oidc';
+import { APP_INITIALIZER } from '@angular/core';
 
-bootstrapApplication(AppComponent, appConfig)
-  .catch((err) => console.error(err));
+export const authCodeFlowConfig: AuthConfig = {
+  issuer: 'http://localhost:8180/realms/my-test-realm',
+  tokenEndpoint: 'http://localhost:8180/realms/my-test-realm/protocol/openid-connect/token',
+  redirectUri: window.location.origin,
+  clientId: 'my-webapp-client',
+  responseType: 'code',
+  scope: 'openid profile',
+  showDebugInformation: true,
+};
+
+function initializeApp(oauthService: OAuthService): Promise<void> {
+  return new Promise((resolve) => {
+    oauthService.configure(authCodeFlowConfig);
+    oauthService.setupAutomaticSilentRefresh();
+    oauthService.loadDiscoveryDocumentAndTryLogin()
+      .then(() => resolve());
+  });
+}
+
+bootstrapApplication(AppComponent, {
+  providers: [
+    provideHttpClient(),
+    provideOAuthClient(),
+    {
+      provide: APP_INITIALIZER,
+      useFactory: (oauthService: OAuthService) => {
+        return () => {
+          initializeApp(oauthService);
+        }
+      },
+      multi: true,
+      deps: [
+        OAuthService
+      ]
+    }
+  ],
+});
