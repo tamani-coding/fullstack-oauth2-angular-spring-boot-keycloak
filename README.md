@@ -5,7 +5,11 @@ An OAuth2 fullstack example with keycloak, angular and spring boot.
 
 Go to `keycloak` folder, modify `Dockerfile` or `docker-compose.yml` (e.g. adjust the `postgres_data` volume) and start up postgres and keycloak via `docker compose up --build`.
 
-The file `my-test-realm-realm.json` is used to import a complete realm configuration, including clients, users, roles, etc... into keycloak. You may create and configure your own realm by using the keycloak admin console.
+The file `my-test-realm-realm.json` is used to import a complete realm configuration, including clients, users, roles, etc... into keycloak. 
+
+Realm: `my-test-realm`, Username: `testuser-1`, Password: `testuser1`
+
+You may create and configure your own realm by using the keycloak admin console.
 
 Check if the keycloak admin console is reachable (`http://localhost:8180/`).
 
